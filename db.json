@@ -1,0 +1,10 @@
+{
+  "categorias": [
+    {
+      "id": 1,
+      "nome": "Front-end",
+      "descricao": "Tudo sobre o Front-end",
+      "cor": "#6bd1ff"
+    }
+  ]
+}
