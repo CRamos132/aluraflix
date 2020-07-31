@@ -24,7 +24,7 @@ function CadastroCategoria() {
     });
   }
   useEffect(() => {
-    const url = 'http://localhost:8080/categorias';
+    const url = 'https://heitor-flix.herokuapp.com/categorias';
     fetch(url)
       .then(async (resposta) => {
         const dados = await resposta.json();
