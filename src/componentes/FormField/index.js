@@ -4,9 +4,6 @@ import styled, { css } from 'styled-components';
 
 const FormFieldWrapper = styled.div`
   position: relative;
-  margin-top: 50px;
-  margin-left: 5%;
-  margin-right: 5%;
   textarea {
     min-height: 150px;
   }
@@ -76,7 +73,6 @@ const Input = styled.input`
 function FormField({
   label, type, name, value, onchange,
 }) {
-  const fieldId = `id_${name}`;
   const isTextArea = type === 'textarea';
   const tag = isTextArea ? 'textarea' : 'input';
 

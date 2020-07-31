@@ -4,17 +4,9 @@ import PageRoot from '../../../componentes/PageRoot';
 import FormField from '../../../componentes/FormField';
 import Button from '../../../componentes/Button';
 
-function CadastroCategoria() {
-  const valoresIniciais = { nome: '', descricao: '', cor: '' };
-
-  const [listaCategorias, setCategorias] = useState([]);
+function useForm(valoresIniciais) {
   const [novaCategoria, setNovaCategoria] = useState(valoresIniciais);
 
-  function inserirCategoria(e) {
-    e.preventDefault();
-    setCategorias([...listaCategorias, novaCategoria]);
-    setNovaCategoria(valoresIniciais);
-  }
   function categoriaHandler(evento) {
     const { name, value } = evento.target;
 
@@ -23,29 +15,55 @@ function CadastroCategoria() {
       [name]: value,
     });
   }
+
+  function clearForm() {
+    setNovaCategoria(valoresIniciais);
+  }
+
+  return (
+    novaCategoria,
+    categoriaHandler,
+    clearForm
+  );
+}
+
+function CadastroCategoria() {
+  const [listaCategorias, setCategorias] = useState([]);
+
   useEffect(() => {
-    const url = 'https://heitor-flix.herokuapp.com/categorias';
-    fetch(url)
+    const URL = window.location.hostname.includes('localhost')
+      ? 'http://localhost:8080/categorias'
+      : 'https://heitor-flix.herokuapp.com/categorias';
+    fetch(URL)
       .then(async (resposta) => {
         const dados = await resposta.json();
         setCategorias([...dados]);
       });
   }, []);
 
+  const valoresIniciais = { titulo: '', descricao: '', cor: '' };
+
+  const { categoriaHandler, novaCategoria, clearForm } = useForm(valoresIniciais);
+
   return (
     <PageRoot>
       <h1>
         Cadastro de caregoria:
-        {novaCategoria.nome}
+        {novaCategoria.titulo}
       </h1>
 
-      <form onSubmit={inserirCategoria}>
+      <form onSubmit={function inserirCategoria(e) {
+        e.preventDefault();
+        setCategorias([...listaCategorias, novaCategoria]);
+        clearForm();
+      }}
+      >
 
         <FormField
           label="Nome da categoria:"
           type="text"
-          name="nome"
-          value={novaCategoria.nome}
+          name="titulo"
+          value={novaCategoria.titulo}
           onchange={categoriaHandler}
         />
 
@@ -68,7 +86,7 @@ function CadastroCategoria() {
         <Button as="a">Cadastrar</Button>
       </form>
       <ul>
-        {listaCategorias.map((cat, index) => (<li key={index}>{cat.nome}</li>))}
+        {listaCategorias.map((cat, index) => (<li key={index}>{cat.titulo}</li>))}
       </ul>
       <Link to="/">
         Voltar ao início
