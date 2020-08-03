@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import PageRoot from '../../../componentes/PageRoot';
 import FormField from '../../../componentes/FormField';
 import Button from '../../../componentes/Button';
 import useForm from '../../../hooks/useForm';
 import config from '../../../config';
+
+const Wrapper = styled.div`
+  padding-top: 50px;
+  padding-left: 5%;
+  padding-right: 5%;
+`;
 
 function CadastroCategoria() {
   const [listaCategorias, setCategorias] = useState([]);
@@ -23,50 +30,52 @@ function CadastroCategoria() {
 
   return (
     <PageRoot>
-      <h1>
-        Cadastro de caregoria:
-        {novaCategoria.titulo}
-      </h1>
+      <Wrapper>
+        <h1>
+          Cadastro de caregoria:
+          {novaCategoria.titulo}
+        </h1>
 
-      <form onSubmit={function inserirCategoria(e) {
-        e.preventDefault();
-        setCategorias([...listaCategorias, novaCategoria]);
-        clearForm();
-      }}
-      >
+        <form onSubmit={function inserirCategoria(e) {
+          e.preventDefault();
+          setCategorias([...listaCategorias, novaCategoria]);
+          clearForm();
+        }}
+        >
 
-        <FormField
-          label="Nome da categoria:"
-          type="text"
-          name="titulo"
-          value={novaCategoria.titulo}
-          onchange={categoriaHandler}
-        />
+          <FormField
+            label="Nome da categoria:"
+            type="text"
+            name="titulo"
+            value={novaCategoria.titulo}
+            onchange={categoriaHandler}
+          />
 
-        <FormField
-          label="Descrição:"
-          type="textarea"
-          name="descricao"
-          value={novaCategoria.descricao}
-          onchange={categoriaHandler}
-        />
+          <FormField
+            label="Descrição:"
+            type="textarea"
+            name="descricao"
+            value={novaCategoria.descricao}
+            onchange={categoriaHandler}
+          />
 
-        <FormField
-          label="Cor:"
-          type="color"
-          name="cor"
-          value={novaCategoria.cor}
-          onchange={categoriaHandler}
-        />
+          <FormField
+            label="Cor:"
+            type="color"
+            name="cor"
+            value={novaCategoria.cor}
+            onchange={categoriaHandler}
+          />
 
-        <Button as="a">Cadastrar</Button>
-      </form>
-      <ul>
-        {listaCategorias.map((cat, index) => (<li key={index}>{cat.titulo}</li>))}
-      </ul>
-      <Link to="/">
-        Voltar ao início
-      </Link>
+          <Button as="a">Cadastrar</Button>
+        </form>
+        <ul>
+          {listaCategorias.map((cat, index) => (<li key={index}>{cat.titulo}</li>))}
+        </ul>
+        <Link to="/">
+          Voltar ao início
+        </Link>
+      </Wrapper>
     </PageRoot>
   );
 }
