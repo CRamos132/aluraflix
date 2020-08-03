@@ -1,50 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PageRoot from '../../componentes/PageRoot';
-import dadosIniciais from '../../dados/dados_iniciais.json';
 import BannerMain from '../../componentes/BannerMain';
 import Carousel from '../../componentes/Carousel';
 import categoriasRepository from '../../repositories';
 
 function Home() {
-  categoriasRepository.getAllWithVideos()
-    .then((dados)=>{console.log(dados)});
+  const [dadosIniciais, setDadosIniciais] = useState({
+    categorias: [],
+  });
+
+  useEffect(() => {
+    categoriasRepository.getAllWithVideos()
+      .then((dados) => { setDadosIniciais(dados); console.log(dadosIniciais.length); })
+      .catch((err) => { console.log(err.message); });
+  }, []);
 
   return (
-    <div style={{ background: '#141414' }}>
-      <PageRoot>
+    <PageRoot>
+      {dadosIniciais.length === 0 && (<div>Loading...</div>)}
+
+      {dadosIniciais.length >= 1 && (
+      <>
         <BannerMain
-          videoTitle={dadosIniciais.categorias[0].videos[0].titulo}
-          url={dadosIniciais.categorias[0].videos[0].url}
+          videoTitle={dadosIniciais[0].videos[0].titulo}
+          url={dadosIniciais[0].videos[0].url}
           videoDescription="O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!"
         />
 
         <Carousel
           ignoreFirstVideo
-          category={dadosIniciais.categorias[0]}
+          category={dadosIniciais[0]}
         />
 
         <Carousel
-          category={dadosIniciais.categorias[1]}
+          category={dadosIniciais[1]}
         />
 
         <Carousel
-          category={dadosIniciais.categorias[2]}
+          category={dadosIniciais[2]}
         />
 
         <Carousel
-          category={dadosIniciais.categorias[3]}
+          category={dadosIniciais[3]}
         />
 
         <Carousel
-          category={dadosIniciais.categorias[4]}
+          category={dadosIniciais[4]}
         />
 
         <Carousel
-          category={dadosIniciais.categorias[5]}
+          category={dadosIniciais[5]}
         />
+      </>
+      )}
 
-      </PageRoot>
-    </div>
+    </PageRoot>
   );
 }
 

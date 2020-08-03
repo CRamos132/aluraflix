@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PageRoot from '../../../componentes/PageRoot';
 import styled from 'styled-components';
+import PageRoot from '../../../componentes/PageRoot';
 
 const Wrapper = styled.div`
   padding-top: 50px;
