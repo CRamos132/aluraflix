@@ -3,38 +3,14 @@ import { Link } from 'react-router-dom';
 import PageRoot from '../../../componentes/PageRoot';
 import FormField from '../../../componentes/FormField';
 import Button from '../../../componentes/Button';
-
-function useForm(valoresIniciais) {
-  const [novaCategoria, setNovaCategoria] = useState(valoresIniciais);
-
-  function categoriaHandler(evento) {
-    const { name, value } = evento.target;
-
-    setNovaCategoria({
-      ...novaCategoria,
-      [name]: value,
-    });
-  }
-
-  function clearForm() {
-    setNovaCategoria(valoresIniciais);
-  }
-
-  return (
-    novaCategoria,
-    categoriaHandler,
-    clearForm
-  );
-}
+import useForm from '../../../hooks/useForm';
+import config from '../../../config';
 
 function CadastroCategoria() {
   const [listaCategorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    const URL = window.location.hostname.includes('localhost')
-      ? 'http://localhost:8080/categorias'
-      : 'https://heitor-flix.herokuapp.com/categorias';
-    fetch(URL)
+    fetch(config.URL+'/categorias')
       .then(async (resposta) => {
         const dados = await resposta.json();
         setCategorias([...dados]);

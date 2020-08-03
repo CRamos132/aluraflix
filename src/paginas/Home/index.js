@@ -3,8 +3,12 @@ import PageRoot from '../../componentes/PageRoot';
 import dadosIniciais from '../../dados/dados_iniciais.json';
 import BannerMain from '../../componentes/BannerMain';
 import Carousel from '../../componentes/Carousel';
+import categoriasRepository from '../../repositories';
 
 function Home() {
+  categoriasRepository.getAllWithVideos()
+    .then((dados)=>{console.log(dados)});
+
   return (
     <div style={{ background: '#141414' }}>
       <PageRoot>
