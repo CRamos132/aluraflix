@@ -1,24 +1,24 @@
 import { useState } from 'react';
 
 export function useForm(valoresIniciais) {
-  const [novaCategoria, setNovaCategoria] = useState(valoresIniciais);
+  const [values, setValues] = useState(valoresIniciais);
 
-  function categoriaHandler(evento) {
+  function handleChange(evento) {
     const { name, value } = evento.target;
 
-    setNovaCategoria({
-      ...novaCategoria,
+    setValues({
+      ...values,
       [name]: value,
     });
   }
 
   function clearForm() {
-    setNovaCategoria(valoresIniciais);
+    setValues(valoresIniciais);
   }
 
   return {
-    novaCategoria,
-    categoriaHandler,
+    values,
+    handleChange,
     clearForm,
   };
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PageRoot from '../../componentes/PageRoot';
 import BannerMain from '../../componentes/BannerMain';
 import Carousel from '../../componentes/Carousel';
-import categoriasRepository from '../../repositories';
+import categoriasRepository from '../../repositories/categorias';
 
 function Home() {
   const [dadosIniciais, setDadosIniciais] = useState({
@@ -11,49 +11,38 @@ function Home() {
 
   useEffect(() => {
     categoriasRepository.getAllWithVideos()
-      .then((dados) => { setDadosIniciais(dados); console.log(dadosIniciais.length); })
+      .then((dados) => { setDadosIniciais(dados); })
       .catch((err) => { console.log(err.message); });
   }, []);
 
   return (
-    <PageRoot>
+    <PageRoot paddingAll={0}>
       {dadosIniciais.length === 0 && (<div>Loading...</div>)}
 
-      {dadosIniciais.length >= 1 && (
-      <>
-        <BannerMain
-          videoTitle={dadosIniciais[0].videos[0].titulo}
-          url={dadosIniciais[0].videos[0].url}
-          videoDescription="O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!"
-        />
+      { dadosIniciais.length >= 1 && dadosIniciais.map((categoria, indice) => {
+        if (indice === 0) {
+          return (
+            <div key={categoria.id}>
+              <BannerMain
+                videoTitle={dadosIniciais[0].videos[0].titulo}
+                url={dadosIniciais[0].videos[0].url}
+                videoDescription="O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!"
+              />
 
-        <Carousel
-          ignoreFirstVideo
-          category={dadosIniciais[0]}
-        />
-
-        <Carousel
-          category={dadosIniciais[1]}
-        />
-
-        <Carousel
-          category={dadosIniciais[2]}
-        />
-
-        <Carousel
-          category={dadosIniciais[3]}
-        />
-
-        <Carousel
-          category={dadosIniciais[4]}
-        />
-
-        <Carousel
-          category={dadosIniciais[5]}
-        />
-      </>
-      )}
-
+              <Carousel
+                ignoreFirstVideo
+                category={dadosIniciais[0]}
+              />
+            </div>
+          );
+        }
+        return (
+          <Carousel
+            key={categoria.id}
+            category={categoria}
+          />
+        );
+      })}
     </PageRoot>
   );
 }
